@@ -46,11 +46,6 @@ svg {
   fill: #2C87F2;
   r: 6;
   cursor: all-scroll;
-  display: none;
-}
-
-svg:hover .point-grabber{
-  display:block;
 }
 
 .path {
@@ -62,4 +57,9 @@ svg:hover .point-grabber{
 }
 .selected-point {
   fill: red !important;
+}
+
+#source {
+  width: 50rem;
+  height: 15rem;
 }

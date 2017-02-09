@@ -9,12 +9,12 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
 
-  <link rel="stylesheet" href="site.css">
-  <link rel="stylesheet" href="gravitons.css">
+  <link rel="stylesheet" href="resources/css/site.css">
+  <link rel="stylesheet" href="resources/css/gravitons.css">
 
   <script src="node_modules/knockout/build/output/knockout-latest.js"></script>
 
-  <script src="app.js"></script>
+  <script src="resources/js/app.js"></script>
 </head>
 <body>
 
@@ -32,12 +32,17 @@
       </svg>
       <div class="center">
         <input type="button" class="pure-button" value="Add Path" data-bind="click: addPath">
+        <input type="button" value="View Source" class="pure-button" data-bind="click: viewSource">
+      </div>
+
+      <div class="mt1">
+        <textarea id="source"></textarea>
       </div>
 
     </div>
     <div class="sidebar">
 
-      <div data-bind="if: selectedPoint()">
+      <div data-bind="if: selectedPoint()" class="mb3">
         <h2>Point</h2>
         <div data-bind="with: selectedPoint" class="pure-form pure-form-stacked">
           <label>X</label><input type="text" data-bind="textInput: x">
@@ -51,9 +56,9 @@
 
       </div>
 
-        <div data-bind="if: selectedPath()" class="mt3">
+        <div data-bind="if: selectedPath()" class="mb3">
           <h2>Path</h2>
-          <div data-bind="with: selectedPath" class="pure-form pure-form-stacked">
+          <div data-bind="with: selectedPath" class="pure-form pure-form-stacked mb3">
             <input type="button" class="pure-button" value="Add Point" data-bind="click: addPoint">
 
             <label>Stroke Width</label>
@@ -61,7 +66,18 @@
 
             <label>Stroke Color</label>
             <input type="text" data-bind="textInput: strokeColor">
+
+            <label>Is Complete</label>
+            <input type="checkbox" data-bind="checked: isComplete">
           </div>
+        </div>
+        <div>
+          <h2>Grid</h2>
+          <div class="pure-form pure-form-stacked">
+            <label>Grid Size</label>
+            <input type="text" data-bind="textInput: gridSize">
+          </div>
+
         </div>
     </div>
   </div>

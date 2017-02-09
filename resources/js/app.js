@@ -12,6 +12,8 @@ function Path(){
 
   self.points = ko.observableArray([]);
 
+  self.isComplete = ko.observable(false);
+
   self.pathData = ko.computed(function(){
     var retString = "";
 
@@ -21,11 +23,17 @@ function Path(){
       retString += prefix + point.x() + "," + point.y() + " ";
     });
 
+    if (self.isComplete()){
+      retString += "Z";
+    }
+
     return retString;
   });
 
   self.strokeWidth = ko.observable(5);
   self.strokeColor = ko.observable("#000");
+
+
 
   self.points.push(new Point(self));
   self.points.push(new Point(self));
@@ -53,6 +61,8 @@ function viewModel(){
     canvasCords.y = document.getElementById("svgCanvas").getBoundingClientRect().top;
   }
   updateCanvasCords();
+
+  self.gridSize = ko.observable(10);
 
   self.paths = ko.observableArray([]);
 
@@ -88,14 +98,25 @@ function viewModel(){
     self.paths.push(new Path());
   }
 
+  self.viewSource = function(){
+    var paths = document.querySelectorAll("#svgCanvas path");
+
+    var retString = "";
+    paths.forEach(function(path){
+      retString += '<path d="' + path.getAttribute("d") + '"></path>\n'
+    })
+    document.getElementById("source").innerHTML = retString;
+  }
 
 
   var movingPoint;
   var movingPath;
   document.addEventListener("mousemove", function(e){
     if (movingPoint){
-      movingPoint.x(e.x - canvasCords.x);
-      movingPoint.y(e.y - canvasCords.y);
+      var x = Math.round((e.x - canvasCords.x) / self.gridSize()) * self.gridSize();
+      var y = Math.round((e.y - canvasCords.y) / self.gridSize()) * self.gridSize();
+      movingPoint.x(x);
+      movingPoint.y(y);
     } else if(movingPath){
       movingPath.movePath(mousedownCords, {x: e.x, y: e.y});
     }
