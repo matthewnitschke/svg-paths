@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="gravitons.css">
+
+  <script src="node_modules/knockout/build/output/knockout-latest.js"></script>
+
+  <script src="app.js"></script>
+</head>
+<body>
+
+  <div class="content-wrapper">
+    <div class="canvas-wrapper">
+      <svg width="582" height="402" id="svgCanvas">
+        <!-- ko foreach: paths -->
+          <path class="path" data-bind="attr: {d: pathData}, css: {'selected-path': $data == $root.selectedPath()}, style: {'stroke-width': strokeWidth, 'stroke': strokeColor}, event: {'mousedown': $root.pathClicked}"></path>
+
+          <!-- ko foreach: points -->
+            <circle class="point-grabber" data-bind="attr: {cx: x, cy: y}, css: {'selected-point': $data == $root.selectedPoint()}, event: {'mousedown': $root.pointClicked}"></circle>
+          <!-- /ko -->
+
+        <!-- /ko -->
+      </svg>
+      <div class="center">
+        <input type="button" class="pure-button" value="Add Path" data-bind="click: addPath">
+      </div>
+
+    </div>
+    <div class="sidebar">
+
+      <div data-bind="if: selectedPoint()">
+        <h2>Point</h2>
+        <div data-bind="with: selectedPoint" class="pure-form pure-form-stacked">
+          <label>X</label><input type="text" data-bind="textInput: x">
+          <label>Y</label><input type="text" data-bind="textInput: y">
+        </div>
+
+        <div class="white">
+          <div> Ctrl + Click - match X </div>
+          <div> Alt + Click - match Y </div>
+        </div>
+
+      </div>
+
+        <div data-bind="if: selectedPath()" class="mt3">
+          <h2>Path</h2>
+          <div data-bind="with: selectedPath" class="pure-form pure-form-stacked">
+            <input type="button" class="pure-button" value="Add Point" data-bind="click: addPoint">
+
+            <label>Stroke Width</label>
+            <input type="text" data-bind="textInput: strokeWidth">
+
+            <label>Stroke Color</label>
+            <input type="text" data-bind="textInput: strokeColor">
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <script>run()</script>
+</body>
+</html>
